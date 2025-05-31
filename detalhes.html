@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalhes do Pet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body { background-color: #f8f9fa; }
+    .container { max-width: 600px; margin-top: 20px; }
+
+    /* 🔹 Estilização dos detalhes */
+    .card {
+      border-radius: 12px;
+      box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .card-img-top {
+      height: 280px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .btn-primary, .btn-danger {
+      width: 100%;
+      font-size: 18px;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <div class="card">
+    <img id="imagemDetalhe" class="card-img-top" alt="Imagem do pet">
+    <div class="card-body">
+      <h2 id="tituloDetalhe"></h2>
+      <p id="descricaoDetalhe"></p>
+      <p><strong>Valor:</strong> R$ <span id="valorDetalhe"></span></p>
+
+      <div class="d-grid gap-2">
+        <button class="btn btn-warning mt-3" data-bs-toggle="modal" data-bs-target="#modalEditarPet">
+          <i class="bi bi-pencil-square"></i> Editar
+        </button>
+        <button class="btn btn-danger mt-2" onclick="excluirPet()">
+          <i class="bi bi-trash-fill"></i> Excluir
+        </button>
+        <a href="index.html" class="btn btn-secondary mt-2">
+          <i class="bi bi-arrow-left-circle"></i> Voltar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- 🔥 Modal de edição -->
+  <div class="modal fade" id="modalEditarPet">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Pet</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarPet">
+            <input type="hidden" id="editarPetId">
+            <input type="text" id="editarNomePet" required class="form-control mb-2">
+            <input type="text" id="editarDescricaoPet" required class="form-control mb-2">
+            <input type="url" id="editarImagemPet" required class="form-control mb-2">
+            <input type="number" id="editarValorPet" required class="form-control mb-2" step="0.01">
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const petId = urlParams.get("id");
+
+      // 🔹 Carregar detalhes do pet
+      fetch(`http://localhost:5005/api/pet/${petId}`)
+        .then(response => response.json())
+        .then(pet => {
+          document.getElementById("tituloDetalhe").innerText = pet.nome;
+          document.getElementById("descricaoDetalhe").innerText = pet.descricao;
+          document.getElementById("imagemDetalhe").src = pet.imagem;
+          document.getElementById("valorDetalhe").innerText = pet.valor.toFixed(2);
+
+          document.getElementById("editarPetId").value = petId;
+          document.getElementById("editarNomePet").value = pet.nome;
+          document.getElementById("editarDescricaoPet").value = pet.descricao;
+          document.getElementById("editarImagemPet").value = pet.imagem;
+          document.getElementById("editarValorPet").value = pet.valor;
+        })
+        .catch(err => alert("Erro ao carregar detalhes do pet."));
+    });
+
+    // 🔹 Editar pet
+    document.getElementById("formEditarPet").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const petId = document.getElementById("editarPetId").value;
+
+      const petEditado = {
+        nome: document.getElementById("editarNomePet").value,
+        descricao: document.getElementById("editarDescricaoPet").value,
+        imagem: document.getElementById("editarImagemPet").value,
+        valor: parseFloat(document.getElementById("editarValorPet").value)
+      };
+
+      fetch(`http://localhost:5005/api/pet/${petId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(petEditado),
+      })
+        .then(response => {
+          if (response.ok) {
+            alert("Pet atualizado com sucesso!");
+            window.location.reload();
+          } else {
+            alert("Erro ao atualizar pet.");
+          }
+        })
+        .catch(err => alert("Erro ao atualizar pet."));
+    });
+
+    // 🔹 Excluir pet
+    function excluirPet() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const petId = urlParams.get("id");
+
+      if (confirm("Tem certeza que deseja excluir este pet?")) {
+        fetch(`http://localhost:5005/api/pet/${petId}`, { method: "DELETE" })
+          .then(() => {
+            alert("Pet removido com sucesso!");
+            window.location.href = "index.html";
+          })
+          .catch(error => alert("Erro ao excluir pet."));
+      }
+    }
+  </script>
+
+  <footer class="text-center mt-5 mb-3">
+    <p>© 2025 - Wagner Teofilo de Souza Júnior | Código: 1494380</p>
+  </footer>
+</body>
+</html>

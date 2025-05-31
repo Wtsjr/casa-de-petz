@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASA DE PETZ - WAGNER JR</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <style>
+    .carousel-item {
+      height: 400px;
+    }
+
+    
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease-in-out;
+      height: 400px;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .container {
+      max-width: 90%;
+    }
+
+    h5 {
+      font-size: 22px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    p {
+      font-size: 16px;
+      color: #666;
+    }
+
+    .navbar {
+      background: linear-gradient(90deg, #007bff, #0056b3);
+      padding: 15px;
+    }
+
+    .navbar-brand {
+      font-size: 26px;
+    }
+
+    @media (max-width: 768px) {
+      .carousel-img {
+        height: 250px;
+      }
+
+      .card {
+        height: auto;
+      }
+
+      .card-img-top {
+        height: 180px;
+      }
+
+      h2, h5 {
+        font-size: 20px;
+      }
+      .carousel-img {
+  max-width: 100%; /* Mantém todas as imagens ajustadas ao carrossel */
+  height: auto; /* Evita distorção */
+  object-fit: cover; /* Garante que a imagem fique proporcional */
+  filter: contrast(1.1) brightness(1.1); /* Melhora a nitidez */
+  border-radius: 10px; /* Bordas arredondadas */
+}
+.carousel-img {
+  max-height: 400px; /* Define um tamanho máximo sem distorção */
+}
+
+
+
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary p-3">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-white" href="#">🐶 CASA DE PETZ 🐱</a>
+    </div>
+  </nav>
+
+  <!-- Destaque / Carousel -->
+  <div class="container my-4">
+    <h5>Bem vindo ao cantinho dos petz!!!</h5>
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+      <div class="carousel-inner">
+        <div class="carousel-item active text-center">
+  <img src="meu-pet..png" class="d-block mx-auto carousel-img" alt="Meu Pet">
+</div>
+        <div class="carousel-item">
+          <img src="https://fisiocarepet.com.br/wp-content/uploads/2024/12/Capas-para-blog-16-1024x575.png" class="d-block w-100 carousel-img" alt="Imagem 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://chefbob.com.br/wp-content/uploads/2021/05/2021-05-12-como-deixar-os-gatos-mais-tranquilos.jpg" class="d-block w-100 carousel-img" alt="Imagem 3">
+        </div>
+      </div>
+      
+      <!-- Controles de Navegação -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Galeria de Pets + Formulário -->
+  <div class="container my-4">
+    <div class="row row-cols-1 row-cols-md-4 g-3" id="galeriaPets">
+      
+      <!-- Card com botão para abrir o modal -->
+      <div class="col">
+        <div class="card">
+          <img src="https://www.designerd.com.br/wp-content/uploads/2023/07/logo-pet-shop-3.jpg" class="card-img-top" alt="Imagem ilustrativa">
+          <div class="card-body text-center">
+            <h5 class="card-title">Adicione acessorios para os petz</h5>
+            <button class="btn btn-success w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalAdicionarPet">Adicionar Pet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards dos pets serão inseridos aqui via JS -->
+
+    </div>
+  </div>
+
+  <!-- 🔥 Modal para adicionar pet -->
+  <div class="modal fade" id="modalAdicionarPet">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Adicionar Pet</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formPet">
+            <input type="text" id="nomePet" placeholder="Nome do Pet" required class="form-control mb-2">
+            <input type="text" id="descricaoPet" placeholder="Descrição" required class="form-control mb-2">
+            <input type="url" id="imagemPet" placeholder="URL da Imagem" required class="form-control mb-2">
+            <input type="number" id="valorPet" placeholder="Valor (R$)" required class="form-control mb-2" step="0.01">
+            <button type="submit" class="btn btn-success w-100 mt-2">Adicionar Pet</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", carregarPets);
+
+    function carregarPets() {
+      fetch("http://localhost:5005/api/pet")
+        .then(response => response.json())
+        .then(data => {
+          let galeria = document.getElementById("galeriaPets");
+          data.forEach(pet => adicionarCard(pet));
+        })
+        .catch(error => alert("Erro ao carregar pets."));
+    }
+
+    function adicionarCard(pet) {
+      let galeria = document.getElementById("galeriaPets");
+      let novoCard = document.createElement("div");
+      novoCard.className = "col";
+      novoCard.innerHTML = `
+        <div class="card">
+          <img src="${pet.imagem}" class="card-img-top" alt="${pet.nome}">
+          <div class="card-body">
+            <h5 class="card-title">${pet.nome}</h5>
+            <p class="card-text">${pet.descricao}</p>
+            <p><strong>Valor:</strong> R$ ${pet.valor.toFixed(2)}</p>
+            <a href="detalhes.html?id=${pet.id}" class="btn btn-primary">Ver Detalhes</a>
+          </div>
+        </div>`;
+      galeria.appendChild(novoCard);
+      document.getElementById("formPet").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const novoPet = {
+    nome: document.getElementById("nomePet").value,
+    descricao: document.getElementById("descricaoPet").value,
+    imagem: document.getElementById("imagemPet").value,
+    valor: parseFloat(document.getElementById("valorPet").value)
+  };
+
+  fetch("http://localhost:5005/api/pet", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(novoPet)
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert("Pet adicionado!");
+      bootstrap.Modal.getInstance(document.getElementById("modalAdicionarPet")).hide(); // Fecha o modal
+      adicionarCard(data); // Adiciona o pet na galeria
+    })
+    .catch(error => alert("Erro ao adicionar pet."));
+});
+    }
+  </script>
+
+  <footer class="text-center mt-5 mb-3">
+    <p>© 2025 - Wagner Teofilo de Souza Júnior | Código: 1494380</p>
+  </footer>
+</body>
+</html>
